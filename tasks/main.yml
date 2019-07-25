@@ -1,0 +1,18 @@
+
+- name: ensure existence of user
+  user:
+    name: '{{ user_access_username }}'
+
+- name: ensure existence of SSH directory
+  file:
+    path: /home/{{ user_access_username }}/.ssh
+    state: directory
+    owner: '{{ user_access_username }}'
+    group: '{{ user_access_username }}'
+    mode: 0700
+
+- name: add public key to authorized keys
+  authorized_key:
+    user: '{{ user_access_username }}'
+    key: '{{ lookup("file", user_access_ssh_public_key) }}'
+
