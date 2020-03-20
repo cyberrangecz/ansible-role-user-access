@@ -16,3 +16,9 @@
     user: '{{ kypo_user_access_username }}'
     key: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
 
+- name: set password if defined
+  user:
+    name: '{{ kypo_user_access_username }}'
+    password: '{{ kypo_user_access_password | password_hash("sha512") }}'
+  when: kypo_user_access_password is defined and kypo_user_access_password
+
