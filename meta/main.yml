@@ -1,7 +1,6 @@
-
 galaxy_info:
     role_name: kypo-user-access
-    author: Kamil Andoniadis
+    author: KYPO Team
     description: Distribution of user SSH public key to authorized keys.
     licence: MIT
     min_ansible_version: 2.3.3
