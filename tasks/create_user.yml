@@ -1,0 +1,24 @@
+- name: ensure existence of user
+  user:
+    name: '{{ kypo_user_access_username }}'
+    shell: /bin/bash
+
+- name: ensure existence of SSH directory
+  file:
+    path: /home/{{ kypo_user_access_username }}/.ssh
+    state: directory
+    owner: '{{ kypo_user_access_username }}'
+    group: '{{ kypo_user_access_username }}'
+    mode: 0700
+
+- name: add public key to authorized keys
+  authorized_key:
+    user: '{{ kypo_user_access_username }}'
+    key: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
+    key_options: '{{ kypo_user_access_ssh_public_key_options | default(omit)}}'
+
+- name: set password if defined
+  user:
+    name: '{{ kypo_user_access_username }}'
+    password: '{{ kypo_user_access_password | password_hash("sha512") }}'
+  when: kypo_user_access_password is defined and kypo_user_access_password
