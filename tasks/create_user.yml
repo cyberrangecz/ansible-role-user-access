@@ -22,3 +22,11 @@
     name: '{{ kypo_user_access_username }}'
     password: '{{ kypo_user_access_password | password_hash("sha512") }}'
   when: kypo_user_access_password is defined and kypo_user_access_password
+
+- name: enable SSH password authentication
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    line: 'PasswordAuthentication yes'
+    regexp: '^#?PasswordAuthentication'
+  when: kypo_user_access_password is defined and kypo_user_access_password
+  notify: Reload SSH service
