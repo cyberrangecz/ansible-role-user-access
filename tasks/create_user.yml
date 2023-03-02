@@ -30,3 +30,11 @@
     regexp: '^#?PasswordAuthentication'
   when: kypo_user_access_password is defined and kypo_user_access_password
   notify: Reload SSH service
+
+- name: grant sudo if defined
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^{{ kypo_user_access_username }}'
+    line: '{{ kypo_user_access_username }} ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+  when: kypo_user_access_sudo

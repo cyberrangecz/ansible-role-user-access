@@ -6,3 +6,4 @@ kypo_user_access_ssh_public_key: '{{ kypo_global_ssh_public_user_key | default(k
 kypo_user_access_ssh_public_key_options:
 kypo_user_access_password:
 kypo_user_access_present: True
+kypo_user_access_sudo: False
