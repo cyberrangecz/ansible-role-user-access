@@ -1,7 +1,7 @@
 - name: ensure existence of user
   user:
     name: '{{ kypo_user_access_username }}'
-    shell: /bin/bash
+    shell: '{{ kypo_user_access_shell }}'
 
 - name: ensure existence of SSH directory
   file:
