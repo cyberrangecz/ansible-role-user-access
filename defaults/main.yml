@@ -7,4 +7,4 @@ kypo_user_access_ssh_public_key_options:
 kypo_user_access_password:
 kypo_user_access_present: True
 kypo_user_access_sudo: False
-kypo_user_access_shell: '/bin/bash'
+kypo_user_access_shell: '{% if ansible_distribution is defined and ansible_distribution == "Kali" %}/bin/zsh{% else %}/bin/bash{% endif %}'
