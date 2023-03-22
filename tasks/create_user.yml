@@ -16,6 +16,7 @@
     user: '{{ kypo_user_access_username }}'
     key: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
     key_options: '{{ kypo_user_access_ssh_public_key_options | default(omit)}}'
+  when: hostvars["man"] is defined
 
 - name: set password if defined
   user:
