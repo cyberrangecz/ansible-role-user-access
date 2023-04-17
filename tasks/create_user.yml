@@ -26,7 +26,7 @@
 
 - name: enable SSH password authentication
   lineinfile:
-    path: '/etc/ssh/sshd_config'
+    path: '{{ kypo_user_access_sshd_config }}'
     line: 'PasswordAuthentication yes'
     regexp: '^#?PasswordAuthentication'
   when: kypo_user_access_password is defined and kypo_user_access_password

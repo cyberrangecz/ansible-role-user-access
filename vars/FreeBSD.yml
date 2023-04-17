@@ -1,0 +1,2 @@
+kypo_user_access_ssh_service: openssh
+kypo_user_access_sshd_config: /usr/local/etc/ssh/sshd_config

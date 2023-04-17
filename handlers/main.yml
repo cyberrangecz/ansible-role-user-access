@@ -1,5 +1,5 @@
 
 - name: Reload SSH service
   service:
-    name: sshd
+    name: '{{ kypo_user_access_ssh_service }}'
     state: reloaded
