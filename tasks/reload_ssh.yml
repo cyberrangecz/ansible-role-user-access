@@ -1,0 +1,11 @@
+- name: Reload SSH service for non-systemd systems
+  service:
+    name: '{{ user_access_ssh_service }}'
+    state: reloaded
+  when: ansible_facts['service_mgr'] | default('unknown') != 'systemd'
+
+- name: Reload SSH service using systemd
+  ansible.builtin.systemd:
+    name: '{{ user_access_systemd_unit }}'
+    state: reloaded
+  when: ansible_facts['service_mgr'] == 'systemd'

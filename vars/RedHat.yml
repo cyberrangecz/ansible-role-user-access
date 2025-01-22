@@ -1,2 +1,3 @@
-kypo_user_access_ssh_service: sshd
-kypo_user_access_sshd_config: /etc/ssh/sshd_config
+user_access_ssh_service: sshd
+user_access_sshd_config: /etc/ssh/sshd_config
+user_access_systemd_unit: sshd

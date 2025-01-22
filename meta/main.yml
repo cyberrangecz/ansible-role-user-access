@@ -1,14 +1,14 @@
 galaxy_info:
-    role_name: kypo-user-access
-    author: KYPO Team
-    description: Distribution of user SSH public key to authorized keys.
-    licence: MIT
-    min_ansible_version: 2.3.3
-    platforms:
-        - name: Debian
-          versions:
-              - all
-        - name: Ubuntu
-          versions:
-              - all
-
+  role_name: user-access
+  author: KYPO Team (Masaryk University) and CyberSecurity Hub
+  description: Distribution of user SSH public key to authorized keys.
+  company: Masaryk University and CyberSecurity Hub, z.s.
+  licence: MIT
+  min_ansible_version: '2.14'
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all

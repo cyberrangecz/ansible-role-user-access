@@ -1,7 +1,7 @@
 - include_vars: "{{ ansible_os_family | default('Debian') }}.yml"
 
 - include_tasks: create_user.yml
-  when: kypo_user_access_present
+  when: user_access_present
 
 - include_tasks: remove_user.yml
-  when: not kypo_user_access_present
+  when: not user_access_present

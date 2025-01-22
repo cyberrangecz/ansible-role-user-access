@@ -1,5 +1,5 @@
-- name: remove kypo jump host
+- name: remove user
   user:
-    name: '{{ kypo_user_access_username }}'
+    name: '{{ user_access_username }}'
     state: absent
     remove: yes

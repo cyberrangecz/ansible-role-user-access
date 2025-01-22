@@ -1,5 +1,2 @@
-
 - name: Reload SSH service
-  service:
-    name: '{{ kypo_user_access_ssh_service }}'
-    state: reloaded
+  include_tasks: tasks/reload_ssh.yml

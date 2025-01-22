@@ -1,41 +1,58 @@
 - name: ensure existence of user
   user:
-    name: '{{ kypo_user_access_username }}'
-    shell: '{{ kypo_user_access_shell }}'
+    name: '{{ user_access_username }}'
+    shell: '{{ user_access_shell }}'
 
 - name: ensure existence of SSH directory
   file:
-    path: /home/{{ kypo_user_access_username }}/.ssh
+    path: /home/{{ user_access_username }}/.ssh
     state: directory
-    owner: '{{ kypo_user_access_username }}'
-    group: '{{ kypo_user_access_username }}'
-    mode: 0700
+    owner: '{{ user_access_username }}'
+    group: '{{ user_access_username }}'
+    mode: 700
 
 - name: add public key to authorized keys
   authorized_key:
-    user: '{{ kypo_user_access_username }}'
-    key: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
-    key_options: '{{ kypo_user_access_ssh_public_key_options | default(omit)}}'
+    user: '{{ user_access_username }}'
+    key: '{{ lookup("file", user_access_ssh_public_key) }}'
+    key_options: '{{ user_access_ssh_public_key_options | default(omit)}}'
   when: hostvars["man"] is defined
 
 - name: set password if defined
   user:
-    name: '{{ kypo_user_access_username }}'
-    password: '{{ kypo_user_access_password | password_hash("sha512") }}'
-  when: kypo_user_access_password is defined and kypo_user_access_password
+    name: '{{ user_access_username }}'
+    password: '{{ user_access_password | password_hash("sha512") }}'
+  when: user_access_password is defined and user_access_password
 
-- name: enable SSH password authentication
+- name: Add ChallengeResponse and PasswordAuthentication config
+  blockinfile:
+    path: /etc/ssh/sshd_config.d/99-challenge-password-auth.conf
+    create: yes
+    block: |
+      ChallengeResponseAuthentication yes
+      PasswordAuthentication yes
+  when: user_access_password is defined and user_access_password
+  notify: Reload SSH service
+
+- name: Remove ChallengeResponseAuthentication from main sshd_config
   lineinfile:
-    path: '{{ kypo_user_access_sshd_config }}'
-    line: 'PasswordAuthentication yes'
+    path: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    state: absent
+  notify: Reload SSH service
+
+- name: Remove PasswordAuthentication from main sshd_config
+  lineinfile:
+    path: /etc/ssh/sshd_config
     regexp: '^#?PasswordAuthentication'
-  when: kypo_user_access_password is defined and kypo_user_access_password
+    state: absent
+  when: user_access_password is defined and user_access_password
   notify: Reload SSH service
 
 - name: grant sudo if defined
   lineinfile:
     dest: /etc/sudoers
-    regexp: '^{{ kypo_user_access_username }}'
-    line: '{{ kypo_user_access_username }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^{{ user_access_username }}'
+    line: '{{ user_access_username }} ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
-  when: kypo_user_access_sudo
+  when: user_access_sudo
