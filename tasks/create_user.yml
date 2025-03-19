@@ -3,6 +3,14 @@
     name: '{{ user_access_username }}'
     shell: '{{ user_access_shell }}'
 
+- name: Enforce owner & group on directory
+  file:
+    path: /home/'{{ user_access_username }}'
+    state: directory
+    owner: '{{ user_access_username }}'
+    group: '{{ user_access_username }}'
+    recurse: yes
+
 - name: ensure existence of SSH directory
   file:
     path: /home/{{ user_access_username }}/.ssh
