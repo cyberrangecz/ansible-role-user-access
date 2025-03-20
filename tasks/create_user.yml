@@ -5,7 +5,7 @@
 
 - name: Enforce owner & group on directory
   file:
-    path: /home/'{{ user_access_username }}'
+    path: '/home/{{ user_access_username }}'
     state: directory
     owner: '{{ user_access_username }}'
     group: '{{ user_access_username }}'
